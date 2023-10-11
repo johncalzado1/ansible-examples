@@ -1,0 +1,10 @@
+- hosts: docker-server
+  vars:
+    trigger_condition: fasle
+  tasks:
+  - ansible.builtin.debug:
+      msg: "This message triggered due to the conditional"
+    when: trigger_condition == true
+
+  - ansible.builtin.debug:
+      msg: "This message will always run"

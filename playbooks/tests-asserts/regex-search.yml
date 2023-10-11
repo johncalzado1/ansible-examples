@@ -1,0 +1,12 @@
+- hosts: docker-server
+  vars:
+    some_text: "herhtesteruwe rwutestfugoe goi test ejfvosj ofvi ejoi"
+  tasks:
+    - ansible.builtin.assert :
+        that:
+          - some_text | regex_findall('test') | length > 1
+        fail_msg: "the string 'test' has appeared less than once"
+        success_msg: "the string test has appeared more than once"
+
+    - ansible.builtin.debug:
+        msg: "{{ some_text  | select('match', 'test') }}"

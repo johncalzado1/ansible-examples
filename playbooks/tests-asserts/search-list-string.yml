@@ -1,0 +1,15 @@
+- hosts: docker-server
+  vars:
+    some_list:
+      - example.com
+      - helloexample.com
+      - fhello.com
+      - sample.ru
+      - h.ru
+      - hello.co.uk
+      - bye.ru.com
+      - hello.rush.com
+  tasks:
+
+    - ansible.builtin.debug:
+        msg: "{{ some_list  | select('match', '.*.ru$') }}"

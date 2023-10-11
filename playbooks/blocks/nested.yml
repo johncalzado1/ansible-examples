@@ -1,0 +1,38 @@
+- hosts: docker-server
+  tasks:
+  - block:
+      - name: outer task
+        ansible.builtin.debug:
+          msg: "outer task"
+
+      - block:
+        - name: inner task
+          ansible.builtin.debug:
+            msg: "inner task"
+
+        - name: inner task that will fail
+          ansible.builtin.shell:
+            cmd: "false"
+
+        rescue:
+          - name: rescue inner tasks
+            ansible.builtin.debug:
+              msg: "rescue inner tasks"
+
+          - name: pass ansible_failed_result to outer block's variable
+            ansible.builtin.set_fact:
+              error: "{{ ansible_failed_result }}"
+
+          - name: after rescuing inner task, re-raise error for outer tasks
+            ansible.builtin.fail:
+              msg: "{{ ansible_failed_result }}"
+
+    rescue:
+      - name: rescue all task when an error an error is defined 
+        ansible.builtin.debug:
+          msg: "{{ error }}"
+        when: error is defined
+
+    vars:
+      error: 
+       

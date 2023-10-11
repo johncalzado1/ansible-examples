@@ -1,0 +1,13 @@
+- hosts: docker-server
+  vars:
+    var1:
+    list_of_vars_to_define: 
+      - var1
+      - var2
+      - var3
+  tasks:
+  - ansible.builtin.debug:
+      msg: "Need to set variable {{ item }}"
+    when: vars[item] is undefined
+    loop: "{{ list_of_vars_to_define }}"
+

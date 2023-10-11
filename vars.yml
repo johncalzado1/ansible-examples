@@ -1,0 +1,4 @@
+# harbor_user: user
+# harbor_pass: User12345
+harbor_user: admin
+harbor_pass: test

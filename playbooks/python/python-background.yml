@@ -1,0 +1,14 @@
+- hosts: docker-server
+  tasks:
+  - name: Copy local python script copy to remote
+    ansible.builtin.copy:
+      src: ../../lib/background-task.py
+      dest: /home/user/projects/background-task.py
+
+  - name: run python script in the background
+    ansible.builtin.shell:
+      cmd: nohup python /home/user/projects/background-task.py &
+    register: result
+
+  - ansible.builtin.debug:
+      msg: "{{ result }}"

@@ -1,0 +1,32 @@
+- hosts: docker-server
+  # vars:
+  #   params: item-one item-two
+  tasks:
+  # - name: run python script and pass params to modify
+  #   ansible.builtin.script:
+  #     cmd: ../../lib/modify_list.py {{ params }}
+  #     executable: /usr/bin/python3
+  #   register: result
+  
+  # - name: convert string list result into proper list object
+  #   ansible.builtin.set_fact:
+  #     output_list: "{{ result.stdout.splitlines() | map('from_yaml') | list }}"
+
+  # - name: iterate through output list
+  #   ansible.builtin.debug:
+  #     msg: "{{ item }}"
+  #   with_items: "{{ output_list }}"
+      
+
+
+  - name: run our test module
+    modify_list:
+      some_list: 
+      - one
+      - two
+    register: output_list
+
+  - name: iterate through module output (a list)
+    debug:
+      msg: '{{ item }}'   
+    with_items: "{{output_list.output }}"

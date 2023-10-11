@@ -1,0 +1,68 @@
+- hosts: docker-server
+  tasks:
+  - ansible.builtin.debug:
+      msg: "value found"
+    when: "'hi' in message" 
+    vars:
+      message: "hi, nice to meet you"
+
+  - ansible.builtin.debug:
+      msg: "value found"
+    when: "message is search('hi')" 
+    vars:
+      message: "hi nice to meet you"
+
+  - ansible.builtin.debug:
+      msg: "string matches"
+    when: value == "hi" 
+    vars:
+      value: "hi"
+
+  - ansible.builtin.debug:
+      msg: "wont match because ''.log' needs to be at start of string"
+    when: file_name is match('.log')
+    vars:
+      file_name: "test_data.log"
+
+  - ansible.builtin.debug:
+      msg: "match any file name with .log in its name"
+    when: file_name is match('.*log')
+    vars:
+      file_name: "test_data.log"
+
+  - ansible.builtin.debug:
+      msg: "will still match since '.*log was matched'"
+    when: file_name is match('.*log')
+    vars:
+      file_name: "test_data.log.1"
+
+  - ansible.builtin.debug:
+      msg: "found items str"
+    when: url is search('items')
+    vars:
+      url: "http://example.com/api/1234/items/item/434"
+
+  - ansible.builtin.debug:
+      msg: "found api/.*/items pattern"
+    when: url is search('/api/.*/items')
+    vars:
+      url: "http://example.com/api/1234/items/item/434"
+
+  - ansible.builtin.debug:
+      msg: "Will not find api/.*/update pattern"
+    when: url is search('/api/.*/update')
+    vars:
+      url: "http://example.com/api/1234/items/item/434"
+
+  - ansible.builtin.debug:
+      msg: "valid email"
+    when: email is regex('\S+@\S+\.\S+$')
+    vars:
+      email: "example@gmail.com"
+
+  - ansible.builtin.debug:
+      msg: "invalid email"
+    when: email is not regex('\S+@\S+\.\S+$')
+    vars:
+      email: "example--gmail.com"
+

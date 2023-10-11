@@ -1,0 +1,31 @@
+- hosts: docker-server
+  tasks:
+  - ansible.builtin.debug:
+      msg: "is falsy - value is None"
+    when: value is falsy
+    vars:
+      value: 
+
+  - ansible.builtin.debug:
+      msg: "is falsy - empty string"
+    when: value is falsy
+    vars:
+      value: ""
+
+  - ansible.builtin.debug:
+      msg: "is falsy - empty array"
+    when: value is falsy
+    vars:
+      value: []
+
+  - ansible.builtin.debug:
+      msg: "is falsy - empty dict"
+    when: value is falsy
+    vars:
+      value: {}
+
+  - ansible.builtin.debug:
+      msg: "is falsy - empty dict"
+    when: not value
+    vars:
+      value: 

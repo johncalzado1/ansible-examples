@@ -1,0 +1,13 @@
+- block:
+    - name: Force fail to simulate a failed task
+      ansible.builtin.fail:
+        msg: A force failed task
+  rescue:
+    - ansible.builtin.debug:
+        msg: "A rescue task - an error has occured"
+    
+    - name: update task_error flag
+      ansible.builtin.set_fact:
+        task_error: true
+        
+  when: task_error is false # block wont get executed if an error occrus once

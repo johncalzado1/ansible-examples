@@ -1,0 +1,33 @@
+- hosts: docker-server
+  tasks:
+
+  - name: Copy local python script copy to remote
+    ansible.builtin.copy:
+      src: ../../lib/background-task.py 
+      dest: /home/user/projects/background-task.py 
+
+  - name: run python script asynchronously (runs for 10 seconds)
+    ansible.builtin.command:
+      cmd: python /home/user/projects/background-task.py 
+    register: async_task
+    async: 60
+    poll: 0
+
+  - name: Some other task to run DURING asynchronous task
+    ansible.builtin.debug:
+      msg: "Some Other task to execute DURING Async Task"
+
+  - name: Get output of asynchronous task when finished
+    ansible.builtin.async_status:
+      jid: '{{ async_task.ansible_job_id }}'
+    register: async_task_result
+    until: async_task_result.finished
+    retries: 10
+
+  - name: Output result of asynchronous task when finished
+    ansible.builtin.debug:
+      msg: "{{ async_task_result }}"
+
+  - name: Task that runs AFTER asynchronous task
+    ansible.builtin.debug:
+      msg: "Task ran AFTER Async Task"

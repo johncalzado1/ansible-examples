@@ -1,0 +1,3 @@
+- name: included task 2
+  ansible.builtin.debug:
+    msg: "included task 2" 

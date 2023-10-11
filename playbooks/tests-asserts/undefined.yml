@@ -1,0 +1,5 @@
+- hosts: docker-server
+  tasks:
+  - ansible.builtin.debug:
+      msg: "name var is undefined"
+    when: name is undefined

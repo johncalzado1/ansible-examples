@@ -1,0 +1,26 @@
+- hosts: docker-server
+  tasks:
+  - block:
+    - ansible.builtin.debug:
+        msg: Task 1
+      register: t1
+  
+    - name: Task 2
+      shell: 'false'
+      register: t2
+
+    - ansible.builtin.debug:
+        msg: Task 3
+      register: t3
+    ignore_errors: yes
+    always:
+    - ansible.builtin.debug:
+        msg: "task results: {{ [t1.failed, t2.failed, t3.failed] }}"
+
+  - ansible.builtin.fail:
+      msg: "at least one task failed"
+    when: true in [t1.failed, t2.failed, t3.failed]
+
+  - name: "some other task which wont run because we will fail on previous task"
+    ansible.builtin.debug:
+      msg: "Some other task to run"

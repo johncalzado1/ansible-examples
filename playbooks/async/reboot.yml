@@ -1,0 +1,9 @@
+- hosts: dev
+  tasks:
+    - name: restart host & wait for restart to finish
+      ansible.builtin.reboot:
+      become: true
+
+    - ansible.builtin.debug:
+        msg: "Server Restarted"
+        

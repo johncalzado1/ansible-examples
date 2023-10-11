@@ -1,0 +1,18 @@
+- hosts: docker-server
+  vars:
+    task_error: false
+  tasks:
+  
+  - name: repeat block task with loop
+    ansible.builtin.include_tasks: tasks.yml
+    loop:
+      - 1
+      - 2
+      - 3
+
+  # - name: repeat over block task using with_items
+  #   ansible.builtin.include_tasks: tasks.yml
+  #   with_items:
+  #     - 1
+  #     - 2
+  #     - 3

@@ -1,0 +1,29 @@
+- hosts: docker-server
+  tasks:
+  - block:
+      - name: task 1, block 1
+        ansible.builtin.debug:
+          msg: "Task 1 Block 1"
+
+      - name: task 2, block 1
+        ansible.builtin.debug:
+          msg: "Task 2 Block 1"
+
+    rescue:
+      - name: Rescue task @ block 1
+        ansible.builtin.debug:
+          msg: "Rescue Task at block 1"
+
+  - block:
+      - name: task 1, block 2
+        ansible.builtin.debug:
+          msg: "Task 1 Block 2"
+
+      - name: task 2, block 2
+        ansible.builtin.debug:
+          msg: "Task 2 Block 2"
+
+    rescue:
+      - name: Rescue task @ block 1
+        ansible.builtin.debug:
+          msg: "Rescue Task at block 1"

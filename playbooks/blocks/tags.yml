@@ -1,0 +1,11 @@
+- hosts: docker-server
+  tasks:
+  - block:
+    - name: tagged task inside block
+      ansible.builtin.debug:
+        msg: "This block task will run be caused it is tagged"
+      tags: test
+
+    - name: normal task which wont run
+      ansible.builtin.debug:
+        msg: "This block task will not run because it is not tagged"

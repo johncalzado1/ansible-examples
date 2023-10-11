@@ -1,0 +1,12 @@
+- hosts: docker-server
+  vars:
+    list_of_exempt_hosts:
+      - { host_name: "api-server" }
+      # - { host_name: "user-VirtualBox"}
+  tasks:
+    - ansible.builtin.debug:
+        msg: "Current hostname: {{ ansible_hostname }}"
+
+    - ansible.builtin.debug:
+        msg: "current ansible_hostname is not in list of exempt hosts"
+      when:  list_of_exempt_hosts | selectattr("host_name", 'equalto', ansible_hostname) | list | length == 0

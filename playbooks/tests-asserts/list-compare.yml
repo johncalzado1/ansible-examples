@@ -1,0 +1,11 @@
+- hosts: docker-server
+  vars:
+    source_list: [1,2,3,4]
+    target_list: [1,2,3,4,5,6]
+  tasks:
+  - ansible.builtin.assert:
+      that:
+        - source_list | length == target_list | length
+      success_msg: "Both Lists have matching lengths"
+      fail_msg: "Both Lists DO NOT have matching lengths"
+

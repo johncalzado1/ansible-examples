@@ -1,0 +1,32 @@
+- hosts: localhost
+  connection: local
+  tasks:
+  - name: run python script locally (Using connection local)
+    ansible.builtin.script:
+      cmd: ../../lib/example.py
+      executable: /usr/bin/python3
+    register: result
+  
+  - ansible.builtin.debug:
+      msg: "{{ result }}"
+
+- hosts: docker-server
+  tasks:
+  - name: run pyhon script locally (Using delegate_to)
+    ansible.builtin.script:
+      cmd: ../../lib/example.py
+      executable: /usr/bin/python3
+    register: result2
+    delegate_to: localhost
+  
+  - ansible.builtin.debug:
+      msg: "{{ result2 }}"
+
+  - name: run python script remotely
+    ansible.builtin.script:
+      cmd: ../../lib/example.py
+      executable: /usr/bin/python3
+    register: result3
+  
+  - ansible.builtin.debug:
+      msg: "{{ result3 }}"

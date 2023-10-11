@@ -1,0 +1,39 @@
+- hosts: docker-server
+  vars:
+    results: 
+    - { "task": "task 1", "failed" : false, "misc_data": "blhjassaljsi efwoeirf oewif oi" }
+    - { "task": "task 2", "failed" : true, "misc_data": "blhjassaljsi efwoeirf oewif oi" }
+    - { "task": "task 3", "failed" : false, "misc_data": "blhjassaljsi efwoeirf oewif oi" }
+  tasks:
+  - ansible.builtin.assert:
+      that:
+        - item.failed == false 
+      fail_msg: "{{ item.task }} is false"
+      quiet: yes
+    loop: "{{ results }}"
+    loop_control:
+      label: "{{ item.task }}"
+
+    # - name: Collect only facts about hardware
+    #   setup:
+    #     gather_subset:
+    #       - hardware
+
+    # - name: Test for available disk space
+    #   setup:
+    #     filter: ansible_mounts
+
+    # - ansible.builtin.debug:
+    #     msg: "{{ ansible_mounts }}"
+
+    # - name: Ensure that free space on the tested volume is greater than 15%
+    #   assert:
+    #     that:
+    #       - item.size_available|float > item.size_total|float * 0.3
+    #     fail_msg: Disk space on {{ item.mount }} has reached 95% threshold. Total size is {{ item.size_total }} bytes and the available size is {{ item.size_available }} 
+    #     quiet: yes
+    #   # when: >
+    #   #   "size_total" in item and item.fstype in ['xfs', 'ext4']
+    #   loop: "{{ ansible_mounts }}"
+    #   loop_control:
+    #     label: "{{ item.mount }}"

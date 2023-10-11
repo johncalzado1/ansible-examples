@@ -1,0 +1,5 @@
+---
+# tasks file for test_role
+- name: This is a test role task
+  ansible.builtin.debug:
+    msg: "This is a test role task"

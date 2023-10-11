@@ -1,0 +1,19 @@
+- hosts: docker-server
+  tasks:
+  - name: run python script (on conda) - Should run fine
+    ansible.builtin.script:
+      cmd: ../../lib/example-env.py
+      executable: /home/user/miniconda3/envs/test-conda/bin/python3
+    register: result
+
+  - ansible.builtin.debug:
+      msg: "{{ result }}"
+
+  - name: run python script (default base) - Should throw error
+    ansible.builtin.script:
+      cmd: ../../lib/example-env.py
+      executable: /usr/bin/python3
+    register: result
+
+  - ansible.builtin.debug:
+      msg: "{{ result }}"

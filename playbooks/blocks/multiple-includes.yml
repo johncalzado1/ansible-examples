@@ -1,0 +1,11 @@
+- hosts: docker-server
+  vars:
+    include_files: true
+  tasks:
+  - block:
+    - ansible.builtin.include_tasks:
+        file: "{{ item }}"
+      loop:
+        - included-task-1.yml
+        - included-task-2.yml
+      when: include_files is true

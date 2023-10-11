@@ -1,0 +1,20 @@
+- hosts: docker-server
+  vars: 
+    sleep_times:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+  tasks:
+    - name: Run in batches of 3
+      vars:
+        batched_sleep_times: "{{ item }}"
+      include_tasks: batch-task.yml
+      loop: "{{ sleep_times | batch(3) | list }}"
+
+    - name: Task finish
+      ansible.builtin.debug:
+        msg: Playbook Finished 

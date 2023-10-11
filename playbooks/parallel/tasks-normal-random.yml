@@ -1,0 +1,27 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: task 1
+      ansible.builtin.script:
+        cmd: ../../lib/dummy_task_random.py
+        executable: /usr/bin/python3 
+      register: result
+      no_log: true
+
+    - name: task 1 result
+      ansible.builtin.debug:
+        msg: "Task 1 Script result: {{ result.stdout_lines[0] }}"
+
+    - name: task 2
+      ansible.builtin.script:
+        cmd: ../../lib/dummy_task_random.py
+        executable: /usr/bin/python3 
+      register: result
+      no_log: true
+
+    - name: task 2 result
+      ansible.builtin.debug:
+        msg: "Task 2 Script result: {{ result.stdout_lines[0] }}"
+
+    # - ansible.builtin.debug:
+    #     msg: "task 2 end"

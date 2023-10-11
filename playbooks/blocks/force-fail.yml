@@ -1,0 +1,21 @@
+- hosts: docker-server
+  tasks:
+  - block:
+    - name: Normal Task
+      ansible.builtin.debug:
+        msg: "Some normal task"
+
+    - name: A Critical task 
+      ansible.builtin.shell:
+        cmd: "false"
+      register: critical_task
+
+    rescue:
+    - name: A rescue task
+      ansible.builtin.debug:
+        msg: "Task rescued"
+    
+    - name: If critical_task IS the task that fails, the whole block is a flop
+      ansible.builtin.fail:
+        msg: "A critical task failed so overall block is fail"
+      when: critical_task.failed is true

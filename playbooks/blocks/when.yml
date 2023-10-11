@@ -1,0 +1,16 @@
+- hosts: docker-server
+  vars:
+    run_block: true
+  tasks:
+  - block:
+    - ansible.builtin.debug:
+        msg: "Task 1"
+
+    - name: modify run_block var to affect conditional
+      ansible.builtin.set_fact:
+        run_block: false
+
+    - ansible.builtin.debug:
+        msg: "Task 2 - will not get run due to conditional change"
+
+    when: run_block is true

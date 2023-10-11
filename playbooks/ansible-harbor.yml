@@ -1,0 +1,19 @@
+- hosts: docker-server
+  roles: 
+    - one_mind.harbor_ansible_role
+  become: true
+  vars:
+    harbor_version: "v2.6.0" # I'm using docker V2
+    harbor_hostname: "192.168.0.250"
+    harbor_admin_password: "test"
+    harbor_db_password: "test"
+  
+  tasks:
+  - ansible.builtin.include_vars:
+      file: ../vars.yml
+  - name: Login to harbor
+    community.docker.docker_login:
+      registry_url: http://192.168.0.250
+      username: "{{ harbor_user }}"
+      password: "{{ harbor_pass }}"
+      

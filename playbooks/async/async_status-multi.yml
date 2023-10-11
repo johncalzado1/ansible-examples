@@ -1,0 +1,29 @@
+- hosts: docker-server
+  tasks:
+    - name: Task 1
+      ansible.builtin.command:
+        cmd: sleep 5
+      async: 30
+      poll: 0
+      register: t1
+    
+    - name: Task 2
+      ansible.builtin.command:
+        cmd: sleep 10
+      async: 30
+      poll: 0
+      register: t2
+
+    - name: wait for async task 1 & 2 before doing task 3
+      ansible.builtin.async_status:
+        # msg: "{{ item }}"
+        jid: "{{ item.ansible_job_id }}"
+      register: job
+      until: job.finished
+      retries: 10
+      delay: 1
+      with_items: "{{ [t1, t2] }}"
+
+    - name: Task 3
+      ansible.builtin.debug:
+        msg: Last Task

@@ -1,0 +1,54 @@
+- hosts: docker-server
+  tasks:
+  - ansible.builtin.debug:
+      msg: "hello value in items list"
+    when: '"hello" in items'
+    vars:
+      items:
+        - "hello"
+        - "bye" 
+
+  - ansible.builtin.debug:
+      msg: "hello value not in items list"
+    when: '"hello" not in items'
+    vars:
+      items:
+        - "bye" 
+
+  - ansible.builtin.debug:
+      msg: "1 value in items list"
+    when: '1 in items'
+    vars:
+      items:
+        - 1
+        - "bye" 
+
+  - ansible.builtin.debug:
+      msg: "key:hello in items dict"
+    when: '"hello" in items'
+    vars:
+      items:
+        hello: "hi" 
+
+  - ansible.builtin.debug:
+      msg: "key:hello not in items dict"
+    when: '"hello" not in items'
+    vars:
+      items:
+        bye: "bye" 
+
+  - ansible.builtin.debug:
+      msg: "key:hello in items dict"
+    when: '"hello" in items.nested_items'
+    vars:
+      items:
+        nested_items:
+          hello: "hello" 
+
+  - ansible.builtin.debug:
+      msg: "value hi equal the 'hello' key"
+    when: items.hello == "hi"
+    vars:
+      items:
+        hello: "hi" 
+

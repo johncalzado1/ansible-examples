@@ -1,0 +1,18 @@
+- hosts: docker-server
+  tasks:
+  - ansible.builtin.assert:
+      that:
+        - "'ford' in model"
+        - "'focus' in model" 
+      fail_msg: "wrong car model"
+      success_msg: "correct car model"
+    vars:
+      model: "ford focus ST"
+
+  - ansible.builtin.assert:
+      that:
+        - "'ford' in model | lower or 'honda' in model | lower" 
+      fail_msg: "wrong car model"
+      success_msg: "correct car model"
+    vars:
+      model: "Ford civic SE"

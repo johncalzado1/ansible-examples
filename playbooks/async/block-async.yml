@@ -1,0 +1,9 @@
+- hosts: docker-server
+  gather_facts: false
+  tasks:
+    - ansible.builtin.include_tasks:
+        file: ./some-task.yml
+      async: 20
+      poll: 0
+        
+       

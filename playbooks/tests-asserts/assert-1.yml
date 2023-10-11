@@ -1,0 +1,26 @@
+- hosts: docker-server
+  vars:
+    counter1: 0
+    counter2: 3
+    counter3: -1
+  tasks:
+  - ansible.builtin.assert:
+      that:
+        - counter1 >= 0
+        - counter1 <= 1
+      success_msg: "counter is between 0 and 2"
+      fail_msg: "counter needs to be between 0 and 2"
+
+  - ansible.builtin.assert:
+      that:
+        - counter2 >= 0
+        - counter2 <= 1
+      success_msg: "counter is between 0 and 2"
+      fail_msg: "counter needs to be between 0 and 2"
+
+  - ansible.builtin.assert:
+      that:
+        - counter3 >= 0
+        - counter3 <= 1
+      success_msg: "counter is between 0 and 2"
+      fail_msg: "counter needs to be between 0 and 2"

@@ -1,0 +1,16 @@
+- hosts: docker-server
+  vars:
+    global_var: 123
+  tasks:
+  - block:
+    - ansible.builtin.debug:
+        msg: "This is a Global Var: {{ global_var }}"
+    
+    - ansible.builtin.debug:
+        msg: "This is a block-only/local var: {{ block_var }}"
+    vars:
+      block_var: [1,2,3]
+
+  - name: We try to access the block only var, but will fail
+    ansible.builtin.debug:
+      msg: "try to access block-only/local var: {{ block_var }}"

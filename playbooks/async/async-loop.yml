@@ -1,0 +1,27 @@
+- hosts: docker-server
+  vars: 
+    sleep_times:
+      - 1
+      - 2
+      - 3
+      - 4
+  tasks:
+    - ansible.builtin.command:
+        cmd: "sleep {{ item }}"
+      async: 10
+      poll: 0
+      loop: "{{ sleep_times }}"
+      register: async_result
+
+    - name: wait for async tasks 
+      ansible.builtin.async_status:
+        jid: "{{ item.ansible_job_id }}"
+      register: job_status
+      until: job_status.finished
+      with_items: "{{ async_result.results }}"
+      retries: 30
+      delay: 1
+
+    - name: Task finish
+      ansible.builtin.debug:
+        msg: Playbook Finished 

@@ -1,0 +1,18 @@
+- hosts: docker-server
+  gather_facts: false
+  tasks:
+    - name: task 1 
+      ansible.builtin.command: sleep 5
+      async: 10
+      poll: 2
+
+    # - ansible.builtin.debug:
+    #     msg: task 1 
+
+    - name: task 2
+      ansible.builtin.command: sleep 5
+      async: 10
+      poll: 2
+
+    # - ansible.builtin.debug:
+    #     msg: task 2

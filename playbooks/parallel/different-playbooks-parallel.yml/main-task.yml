@@ -1,0 +1,5 @@
+- name: Do playbook 1
+  ansible.builtin.import_playbook: playbook-1.yml
+
+- name: Do playbook 2
+  ansible.builtin.import_playbook: playbook-2.yml  

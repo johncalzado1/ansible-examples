@@ -1,0 +1,7 @@
+- hosts: docker-server
+  vars:
+    name:
+  tasks:
+  - ansible.builtin.debug:
+      msg: "name var is defined"
+    when: name is defined

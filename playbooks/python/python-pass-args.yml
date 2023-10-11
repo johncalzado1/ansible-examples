@@ -1,0 +1,44 @@
+- hosts: docker-server
+  tasks:
+  - name: run python script with args
+    ansible.builtin.script:
+      cmd: ../../lib/pass-args.py item-one item-two
+      executable: /usr/bin/python3
+    register: result
+
+  - ansible.builtin.debug:
+      msg: "{{ result }}"
+
+  - name: Copy local python script copy to remote
+    ansible.builtin.copy:
+      src: ../../lib/pass-args.py
+      dest: /home/user/projects/pass-args.py
+
+  - name: Execute Python Script and pass args using the shell module
+    ansible.builtin.shell:
+      cmd: python3 /home/user/projects/pass-args.py item-one item-two
+    register: result
+
+  - debug:
+      msg: "{{ result }}"
+
+  - name: Execute Python Script and pass args using the command module
+    ansible.builtin.command:
+      # cmd: python3 /home/user/projects/pass-args.py
+      argv:
+        - python3
+        - /home/user/projects/pass-args.py
+        - item-one
+        - item-two
+        - [1,2,3]
+    register: result
+
+  - debug:
+      msg: "{{ result }}"
+
+  - name: Execute Python Script and pass args using the raw module
+    ansible.builtin.raw: python3 /home/user/projects/pass-args.py item-one item-two
+    register: result
+
+  - debug:
+      msg: "{{ result }}"

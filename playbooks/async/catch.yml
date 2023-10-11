@@ -1,0 +1,16 @@
+- hosts: docker-server
+  gather_facts: false
+  tasks:
+    - name: wait for async task executed from another playbook
+      ansible.builtin.async_status:
+        jid: "j45088656801.15233"
+        mode: cleanup
+        # jid: "{{ async_task_result.ansible_job_id }}"
+      until: job_result.finished
+      register: job_result
+      retries: 10
+      delay: 3
+
+    - name: finished waiting
+      ansible.builtin.debug:
+        msg: "Finished waiting for async task"

@@ -1,0 +1,14 @@
+- hosts: dev
+  tasks:
+    - name: restart host
+      ansible.builtin.shell:
+        cmd: "reboot now"
+      async: 1
+      poll: 0
+      become: true
+
+    - name: wait for host to restart
+      ansible.builtin.wait_for_connection:
+        delay: 10
+        timeout: 120
+        

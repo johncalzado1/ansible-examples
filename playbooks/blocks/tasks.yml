@@ -1,0 +1,14 @@
+- block:
+  - ansible.builtin.debug:
+      msg: "Current amount of retries: {{ retry_counter }}"
+
+  - ansible.builtin.fail:
+      msg: Force a fail
+
+  rescue:
+  - ansible.builtin.set_fact:
+      retry_counter: "{{ retry_counter | int + 1 }}"
+  
+  - ansible.builtin.fail:
+      msg: "Exceeded max retry count of: {{ max_retries }}"
+    when: (retry_counter | int >  max_retries | int)

@@ -1,0 +1,24 @@
+- hosts: docker-server 
+  tasks:
+  - block:
+      - name: task 1
+        ansible.builtin.debug:
+          msg: "task 1"
+
+      - name: fail at task 2
+        ansible.builtin.fail:
+          msg: "fail at task 2 (to be rescued)"
+      
+    rescue:
+      - name: show failed task @ rescue
+        ansible.builtin.debug:
+          msg: "{{ ansible_failed_task }}"
+
+      - name: show failed task's result @ rescue
+        ansible.builtin.debug:
+          msg: "{{ ansible_failed_result }}"
+
+    always:
+      - name: This task always runs at the end regardless of outcome
+        ansible.builtin.debug:
+          msg: "This task will always run at the end" 

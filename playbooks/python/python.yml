@@ -1,0 +1,75 @@
+- hosts: docker-server
+  tasks:
+
+
+  # Example 1 - Script Module
+
+  - name: Execute Python Script using the script module
+    ansible.builtin.script:
+      cmd: ../../lib/example.py 
+      executable: /usr/bin/python3
+    register: result
+
+  - debug:
+      msg: "{{ result }}"
+
+
+  # Example 2 - Shell Module
+
+  - name: Copy local python script copy to remote
+    ansible.builtin.copy:
+      src: ../../lib/example.py
+      dest: /home/user/projects/example.py
+
+  - name: Execute Python Script using the shell module
+    ansible.builtin.shell:
+      cmd: python3 /home/user/projects/example.py
+    register: result
+
+  - debug:
+      msg: "{{ result }}"
+
+
+  # Example 3 - Command Module
+
+  - name: Copy local python script copy to remote
+    ansible.builtin.copy:
+      src: ../../lib/example.py
+      dest: /home/user/projects/example.py
+
+  - name: Execute Python Script using the command module
+    ansible.builtin.command:
+      cmd: python3 /home/user/projects/example.py
+    register: result
+
+  - debug:
+      msg: "{{ result }}"
+
+
+  # Example 3a - Command Module with inline python
+
+  - name: Execute Inline Python script using the command module
+    ansible.builtin.command:
+      cmd: python3
+      stdin: |
+        print("Hello")
+    register: result
+
+  - debug:
+      msg: "{{ result }}"
+
+  
+  # Example 4 - Raw Module
+
+  - name: Copy local python script copy to remote
+    ansible.builtin.copy:
+      src: ../../lib/example.py
+      dest: /home/user/projects/example.py
+
+  - name: Execute Python Script using the raw module
+    ansible.builtin.raw: python3 /home/user/projects/example.py
+    register: result
+
+  - debug:
+      msg: "{{ result }}"
+

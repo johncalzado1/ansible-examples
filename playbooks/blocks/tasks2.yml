@@ -1,0 +1,8 @@
+- block:
+    - name: output value variable + 10
+      ansible.builtin.debug:
+        msg: "10 + {{ item }} = {{ 10 + item }}"
+
+    - name: output value variable - 10
+      ansible.builtin.debug:
+        msg: "{{ item }} - 10  = {{ item - 10 }}"

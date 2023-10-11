@@ -1,0 +1,18 @@
+- ansible.builtin.command:
+    cmd: "sleep {{ sleep_time_val }}"
+  async: 10
+  poll: 0
+  loop: "{{ batched_sleep_times }}"
+  loop_control:
+    loop_var: "sleep_time_val"  # instead of "item", set a custom loop var name to avoid var name conflicts
+  register: async_result
+
+- name: wait for async tasks 
+  ansible.builtin.async_status:
+    jid: "{{ item.ansible_job_id }}"
+  register: job_status
+  until: job_status.finished
+  with_items: "{{ async_result.results }}"
+  retries: 30
+  delay: 1
+      

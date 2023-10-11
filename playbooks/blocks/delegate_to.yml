@@ -1,0 +1,19 @@
+- hosts: docker-server
+  tasks:
+  - block:
+    - name: a task to delegate to localhost
+      ansible.builtin.shell:
+        cmd: hostname -f
+      register: result
+      delegate_to: localhost
+
+    - ansible.builtin.debug:
+        msg: "{{ result.stdout }}"
+
+    - name: A non-delegated normal task
+      ansible.builtin.shell:
+        cmd: hostname -f
+      register: result
+
+    - ansible.builtin.debug:
+        msg: "{{ result.stdout }}"

@@ -1,0 +1,21 @@
+---
+- name: Installing and configuring Harbor
+  hosts: docker-server
+  connection: local 
+  vars:
+    harbor_projects:
+      - project_name: projectOne
+        is_public: "false"
+        content_trust: "false"
+        prevent_vul: "true"
+        severity: "high"
+        auto_scan: "true"
+    harbor_users:
+      - username: user1
+        email: user1@test.com
+        realname: User Number 1
+        role_name: developer
+        role_id: 2
+        has_admin_role: true
+  roles:
+    - nicholasamorim.harbor

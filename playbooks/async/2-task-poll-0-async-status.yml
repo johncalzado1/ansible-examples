@@ -1,0 +1,37 @@
+- hosts: docker-server
+  gather_facts: false
+  tasks:
+    - name: task 1 - background task
+      ansible.builtin.command: /bin/sleep 25
+      async: 100
+      poll: 0
+      register: async_task_result
+
+    - name: Cleanup async task
+      ansible.builtin.async_status:
+        jid: "{{ async_task_result.ansible_job_id }}"
+        mode: cleanup
+
+    - name: Task 4 - wait for async task
+      ansible.builtin.async_status:
+        jid: "{{ async_task_result.ansible_job_id }}"
+      until: job_result.finished
+      register: job_result
+      retries: 10
+      delay: 3
+
+    # - name: task 5
+    #   ansible.builtin.debug:
+    #     msg: task 4
+
+
+    # - ansible.builtin.debug:
+    #     msg: "task 2"
+
+    # - name: Cleanup Leftover Async Files
+    #   async_status:
+    #     jid: "{{ a.ansible_job_id }}"
+    #   register: job_result
+    #   until: job_result.changed
+    #   retries: 10
+      

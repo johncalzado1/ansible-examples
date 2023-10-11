@@ -1,0 +1,19 @@
+- hosts: docker-server
+  tasks:
+  - ansible.builtin.debug:
+      msg: "empty string"
+    when: value | length <= 0 
+    vars:
+      value: ""
+
+  - ansible.builtin.debug:
+      msg: "empty dict"
+    when: value.keys() | length <= 0 
+    vars:
+      value: {}
+
+  - ansible.builtin.debug:
+      msg: "empty list"
+    when: value | length <= 0 
+    vars:
+      value: []
